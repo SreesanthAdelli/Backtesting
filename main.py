@@ -17,9 +17,11 @@ class SmaCross(bt.Strategy):
     def next(self):
         if not self.position:  # not in the market
             if self.crossover > 0:  # if fast crosses slow to the upside
+                print(f"Buy signal at {self.datas[0].datetime.date(0)}")
                 self.buy()  # enter long
 
         elif self.crossover < 0:  # in the market & cross to the downside
+            print(f"Sell signal at {self.datas[0].datetime.date(0)}")
             self.close()  # close long position
 
 # Create a "Cerebro" engine instance
@@ -27,8 +29,8 @@ cerebro = bt.Cerebro()
 
 # Create a data feed from CSV
 data = bt.feeds.GenericCSVData(
-    dataname='C:\Users\sadelli\Documents\GitHub\Backtesting\Raw_Data_SPY_10Y_General.csv',  # Replace with your CSV file path
-    dtformat='%m-%d-%Y',  # Adjust date format if necessary
+    dataname=r'C:\Users\sadelli\Documents\GitHub\Backtesting\Fixed_Data_SPY_10Y_General.csv',  # Replace with your CSV file path
+    dtformat='%Y-%m-%d',  # Adjust date format if necessary
     timeframe=bt.TimeFrame.Days,
     compression=1,
     openinterest=-1,  # -1 means this column is not present in the data
