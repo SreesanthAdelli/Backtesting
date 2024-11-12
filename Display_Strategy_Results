@@ -11,7 +11,7 @@ plt.figure(figsize=(10, 10))
 plt.plot(df['Date'], df['Cumulative Return'], label='SPY Cumulative Return', color='blue')
 
 # Plot strategy cumulative returns
-# plt.plot(df['Date'], df['Cumulative Strategy Return'], label='Strategy Cumulative Return', color='orange')
+plt.plot(df['Date'], df['Cumulative Strategy Return'], label='Strategy Cumulative Return', color='orange')
 
 # Highlight buy and sell points
 buy_signals = df[(df['Position'].shift(1) == 0) & (df['Position'] == 1)]
@@ -25,6 +25,10 @@ plt.ylabel('Cumulative Return')
 plt.title('SPY vs. Strategy Cumulative Returns')
 plt.legend()
 plt.grid()
+
+# Adjust the y-axis limit
+plt.ylim(0, 3)
+
 
 # Show the plot
 plt.tight_layout()
