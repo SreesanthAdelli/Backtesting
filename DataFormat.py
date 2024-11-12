@@ -21,4 +21,6 @@ data['Date'] = data['Date'].dt.strftime(new_date_format)  # Format to the new da
 data.to_csv(output_file, index=False)
 
 # Print success message
-print(f"Data successfully written to {output_file}")
+print(f"Fixed date data successfully written to {output_file}")
+
+
