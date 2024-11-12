@@ -1,0 +1,31 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the strategy results data
+df = pd.read_csv('SPY_Strategy_Results.csv', parse_dates=['Date'])
+
+# Plot cumulative returns
+plt.figure(figsize=(10, 10))
+
+# Plot SPY cumulative returns
+plt.plot(df['Date'], df['Cumulative Return'], label='SPY Cumulative Return', color='blue')
+
+# Plot strategy cumulative returns
+# plt.plot(df['Date'], df['Cumulative Strategy Return'], label='Strategy Cumulative Return', color='orange')
+
+# Highlight buy and sell points
+buy_signals = df[(df['Position'].shift(1) == 0) & (df['Position'] == 1)]
+sell_signals = df[(df['Position'].shift(1) == 1) & (df['Position'] == 0)]
+plt.scatter(buy_signals['Date'], buy_signals['Close/Last'], marker='^', color='green', label='Buy Signal', alpha=1)
+plt.scatter(sell_signals['Date'], sell_signals['Close/Last'], marker='v', color='red', label='Sell Signal', alpha=1)
+
+# Add labels and title
+plt.xlabel('Date')
+plt.ylabel('Cumulative Return')
+plt.title('SPY vs. Strategy Cumulative Returns')
+plt.legend()
+plt.grid()
+
+# Show the plot
+plt.tight_layout()
+plt.show()

@@ -1,0 +1,36 @@
+import pandas as pd
+
+# Load the aggregated analysis data
+df = pd.read_csv('SPY_Aggregated_Analysis.csv', parse_dates=['Date'])
+
+# Create signals for consecutive gains and losses
+df['Up_Streak'] = (df['Daily Return'] > 0).astype(int).groupby((df['Daily Return'] <= 0).cumsum()).cumsum()
+df['Down_Streak'] = (df['Daily Return'] < 0).astype(int).groupby((df['Daily Return'] >= 0).cumsum()).cumsum()
+
+# Initialize position and signals
+df['Position'] = 0  # 0 means no position, 1 means long position, no short position (maybe in the future)
+in_position = False  # True if currently in a trade
+
+# Iterate through the rows to apply the strategy
+for i in range(1, len(df)):
+    if not in_position and df['Up_Streak'].iloc[i] >= 3:  # Buy on 3-day upward streak
+        df['Position'].iloc[i] = 1
+        in_position = True
+        print(f"Buying on {df['Date'].iloc[i]} at {df['Close/Last'].iloc[i]}")
+    elif in_position and df['Down_Streak'].iloc[i] >= 3:  # Sell on 3-day downward streak
+        df['Position'].iloc[i] = 0
+        in_position = False
+        print(f"Selling on {df['Date'].iloc[i]} at {df['Close/Last'].iloc[i]}")
+
+# Forward fill positions to maintain holding status
+df['Position'] = df['Position'].replace(to_replace=0, method='ffill')
+
+# Calculate strategy returns
+df['Strategy Return'] = df['Position'].shift(1) * df['Daily Return']
+df['Cumulative Strategy Return'] = (1 + df['Strategy Return']).cumprod() - 1
+
+# Save the results to a new CSV file
+output_file = 'SPY_Strategy_Results.csv'
+df.to_csv(output_file, index=False)
+
+print(f"Strategy results saved to {output_file}")

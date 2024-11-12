@@ -2,8 +2,8 @@ import pandas as pd
 from datetime import datetime
 
 # input and output files defined
-input_file = r'C:\Users\sadelli\Documents\GitHub\Backtesting\Raw_Data_SPY_10Y_General.csv'
-output_file = r'C:\Users\sadelli\Documents\GitHub\Backtesting\Fixed_Data_SPY_10Y_General.csv'
+input_file = r'Raw_Data_SPY_10Y_General.csv'
+output_file = r'Fixed_Data_SPY_10Y_General.csv'
 
 # Pandas reads input file into data
 data = pd.read_csv(input_file)

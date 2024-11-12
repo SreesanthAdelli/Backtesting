@@ -20,4 +20,4 @@ This was originally code from the example given by the backtrader library. I cha
 
 #Overall_Summary.py
 
-I didn't want to hold too much code in one file, so I made 
+I didn't want to hold too much code in one file, so I made some code that takes the originally fixed data and calculated a few metrics, and then saves it to a new csv. This saves a lot of time since instead of making the calculations again I can test my strategies from this data.
