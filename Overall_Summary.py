@@ -21,6 +21,8 @@ df['EMA_50'] = df['Close/Last'].ewm(span=50, adjust=False).mean()  # 50-day EMA
 # Calculate Rolling Volatility (Standard Deviation of Daily Returns)
 df['Volatility_20'] = df['Daily Return'].rolling(window=20).std()  # 20-day rolling volatility
 
+# Normalized Return for SPY
+df['SPY Value Normalized'] = df['Close/Last'] / df['Close/Last'].iloc[0]
 # Save to a new CSV file
 output_file = 'SPY_Aggregated_Analysis.csv'
 df.to_csv(output_file, index=False)
